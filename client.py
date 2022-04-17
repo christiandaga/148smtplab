@@ -5,7 +5,7 @@ msg = "\r\n I love computer networks!"
 endmsg = "\r\n.\r\n"
 
 # Choose a mail server (e.g. Google mail server) and call it mailserver
-mailserver = ('smtp.aol.com', 587)
+mailserver = ('smtp.aol.com', 465)
 
 # Create socket called clientSocket and establish a TCP connection with mailserver
 #Fill in start
