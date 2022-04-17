@@ -22,7 +22,7 @@ if recv[:3] != '220':
 # Send HELO command and print server response.
 heloCommand = 'HELO Alice\r\n'
 clientSocket.send(heloCommand.encode())
-recv1 = clientSocket.recv(1024).decode()
+recv1 = clientSocket.recv(1024).decode() + clientSocket.recv(1024).decode()
 print(recv1)
 
 if recv1[:3] != '250':
@@ -42,27 +42,27 @@ password = 'lgjxzjcothoxuhkd'
 encoded = ('\x00'+username+'\x00'+password).encode()
 encoded = base64.b64encode(encoded)
 clientSocket.send('AUTH PLAIN '.encode()+encoded+'\r\n'.encode())
-recv_auth = clientSocket.recv(1024)
-print(recv_auth.decode())
+recv_auth = clientSocket.recv(1024).decode() + clientSocket.recv(1024).decode()
+print(recv_auth)
 
 # Send MAIL FROM command and print server response.
 # Fill in start
 clientSocket.send(('MAIL FROM:'+username+'\r\n').encode())
-recv2 = clientSocket.recv(1024).decode()
+recv2 = clientSocket.recv(1024).decode() + clientSocket.recv(1024).decode()
 print('MAIL FROM recieved: '+recv2)
 # Fill in end
 
 # Send RCPT TO command and print server response.
 # Fill in start
 clientSocket.send(('RCPT TO:'+username+'\r\n').encode())
-recv3 = clientSocket.recv(1024).decode()
+recv3 = clientSocket.recv(1024).decode() + clientSocket.recv(1024).decode()
 print('RCPT TO recieved: '+recv3)
 # Fill in end
 
 # Send DATA command and print server response.
 # Fill in start
 clientSocket.send(('DATA\r\n').encode())
-recv4 = clientSocket.recv(1024).decode()
+recv4 = clientSocket.recv(1024).decode() + clientSocket.recv(1024).decode()
 print('DATA recieved: '+recv4)
 # Fill in end
 
@@ -75,14 +75,14 @@ clientSocket.send(msg.encode())
 # Message ends with a single period.
 # Fill in start
 clientSocket.send(endmsg.encode())
-recv5 = clientSocket.recv(1024).decode()
+recv5 = clientSocket.recv(1024).decode() + clientSocket.recv(1024).decode()
 print('MSG recieved: '+recv5)
 # Fill in end
 
 # Send QUIT command and get server response.
 # Fill in start
 clientSocket.send(('QUIT\r\n').encode())
-recv6 = clientSocket.recv(1024).decode()
+recv6 = clientSocket.recv(1024).decode() + clientSocket.recv(1024).decode()
 print('QUIT received: '+recv6)
 # Fill in end
 
