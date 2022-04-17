@@ -10,8 +10,8 @@ mailserver = ('smtp.aol.com', 465)
 # Create socket called clientSocket and establish a TCP connection with mailserver
 #Fill in start
 clientSocket = socket(AF_INET, SOCK_STREAM)
+clientSocket = ssl.wrap_socket(clientSocket, ssl_version=ssl.PROTOCOL_TLSv1)
 clientSocket.connect(mailserver)
-ssl.wrap_socket(clientSocket, ssl_version=ssl.PROTOCOL_TLSv1)
 #Fill in end
 
 recv = clientSocket.recv(1024).decode()
@@ -29,11 +29,11 @@ if recv1[:3] != '250':
     print('250 reply not received from server.')
   
 # Start TLS  
-clientSocket.send('250-STARTTLS'.encode())    
-recv_tls = clientSocket.recv(1024).decode()
-print(recv)
-if recv_tls[:3] != '220':
-    print('220 reply not received from server.')
+# clientSocket.send('250-STARTTLS'.encode())    
+# recv_tls = clientSocket.recv(1024).decode()
+# print(recv)
+# if recv_tls[:3] != '220':
+#     print('220 reply not received from server.')
 
 
 # Authentication
@@ -68,21 +68,22 @@ print('DATA recieved: '+recv4)
 
 # Send message data.
 # Fill in start
+clientSocket.send('Subject: Test\r\n'.encode())
 clientSocket.send(msg.encode())
+# Fill in end
+
+# Message ends with a single period.
+# Fill in start
 clientSocket.send(endmsg.encode())
 recv5 = clientSocket.recv(1024).decode()
 print('MSG recieved: '+recv5)
 # Fill in end
 
-# Message ends with a single period.
-# Fill in start
-# Fill in end
-
 # Send QUIT command and get server response.
 # Fill in start
 clientSocket.send(('QUIT\r\n').encode())
-recv7 = clientSocket.recv(1024).decode()
-print('QUIT received: '+recv7)
+recv6 = clientSocket.recv(1024).decode()
+print('QUIT received: '+recv6)
 # Fill in end
 
 clientSocket.close()
